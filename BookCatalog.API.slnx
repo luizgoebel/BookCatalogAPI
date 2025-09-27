@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="BookCatalog.Api/BookCatalog.Api.csproj" Id="ac7c89d3-f9c4-44c5-b96c-93ba680fa0b8" />
+  <Project Path="BookCatalog.Core/BookCatalog.Core.csproj" Id="ff2c7b42-38f6-4373-ada0-af7f74b7ca9e" />
+  <Project Path="BookCatalog.Data/BookCatalog.Data.csproj" Id="6af3ccb3-05bc-4ff6-86cd-242fa4252709" />
+  <Project Path="BookCatalog.Model/BookCatalog.Model.csproj" Id="3e5aba22-1a84-40eb-88cf-acdc4850dcf8" />
+  <Project Path="BookCatalog.Tests/BookCatalog.Tests.csproj" Id="f882a213-dec1-42ef-b6e8-09755eb34831" />
+</Solution>
