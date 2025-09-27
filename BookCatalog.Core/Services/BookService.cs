@@ -17,8 +17,7 @@ public class BookService : IBookService
     public async Task<Book> AddAsync(Book book)
     {
         ArgumentNullException.ThrowIfNull(book);
-        if (book.PublicationYear > DateTime.Now.ToLocalTime().Year)
-            throw new ServiceException("O ano de publicação não pode ser futuro.");
+        book.Validar();
         return await _repository.AddAsync(book);
     }
 
@@ -26,15 +25,20 @@ public class BookService : IBookService
     {
         if (id <= 0)
             throw new ServiceException("Livro não encontrado.");
-        Book book = await _repository.DeleteAsync(id);
-        return book;
+
+        Book book = await _repository.GetByIdAsync(id) ?? 
+            throw new ServiceException("Livro não encontrado.");
+
+        return await _repository.DeleteAsync(id);
     }
 
     public async Task<Book> GetByIdAsync(int id)
     {
-        Book book = await _repository.GetByIdAsync(id) ??
+        if (id <= 0)
+            throw new ServiceException("Id vazio.");
+
+        return await _repository.GetByIdAsync(id) ??
             throw new ServiceException("Livro não encontrado.");
-        return book;
     }
 
     public async Task<Book> UpdateAsync(Book book)
