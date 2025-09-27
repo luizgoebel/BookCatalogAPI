@@ -19,11 +19,9 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "https": {
+    "BookCatalogAPI": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "applicationUrl": "https://localhost:7093;http://localhost:5197",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
