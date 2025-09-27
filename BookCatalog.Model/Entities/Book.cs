@@ -1,4 +1,6 @@
-﻿namespace BookCatalog.Model.Entities;
+﻿using BookCatalog.Model.Exceptions;
+
+namespace BookCatalog.Model.Entities;
 
 public class Book : BaseModel<Book>
 {
@@ -10,15 +12,23 @@ public class Book : BaseModel<Book>
     public bool Validar()
     {
         if (string.IsNullOrWhiteSpace(Title))
-            throw new Exception("Por favor, preencher o titulo.");
+            throw new DomainException("Por favor, preencher o titulo.");
 
         if (string.IsNullOrWhiteSpace(Author))
-            throw new Exception("Por favor, preencher o autor.");
+            throw new DomainException("Por favor, preencher o autor.");
 
-        var anoAtual = DateTime.UtcNow.Year;
+        var anoAtual = DateTime.Now.ToLocalTime().Year;
         if (PublicationYear < 1 || PublicationYear > anoAtual)
-            throw new Exception("Por favor, verificar a data de publicação informada.");
-
+            throw new DomainException("Por favor, verificar a data de publicação informada.");
+        
         return true;
+    }
+
+    public void Alterar(Book book)
+    {
+        this.Title = book.Title;
+        this.Author = book.Author;
+        this.PublicationYear = book.PublicationYear;
+        this.Validar();
     }
 }

@@ -13,13 +13,28 @@ public class BookRepository : IBookRepository
     }
     public async Task<Book> AddAsync(Book book)
     {
-        _context.Add(book);
-        await _context.SaveChangesAsync();
+        this._context.Set<Book>().Add(book);
+        await this._context.SaveChangesAsync();
+        return book;
+    }
+
+    public async Task<Book> DeleteAsync(int id)
+    {
+        Book book = await this._context.Set<Book>().FindAsync(id);
+        this._context.Set<Book>().Remove(book);
+        await this._context.SaveChangesAsync();
         return book;
     }
 
     public async Task<Book> GetByIdAsync(int id)
     {
-        return await _context.FindAsync<Book>(id);
+        return await this._context.Set<Book>().FindAsync(id);
+    }
+
+    public async Task<Book> UpdateAsync(Book book)
+    {
+        this._context.Set<Book>().Update(book);
+        await this._context.SaveChangesAsync();
+        return book;
     }
 }
