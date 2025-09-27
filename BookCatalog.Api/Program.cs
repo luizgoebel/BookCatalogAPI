@@ -1,3 +1,4 @@
+using BookCatalog.Api.Middlewares;
 using BookCatalog.Core.IServices;
 using BookCatalog.Core.Services;
 using BookCatalog.Data.Context;
@@ -6,8 +7,6 @@ using BookCatalog.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -19,18 +18,14 @@ builder.Services.AddDbContext<BookContext>(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
-
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
+//app.UseAuthorization();
+app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
 app.Run();
