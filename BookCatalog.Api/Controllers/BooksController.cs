@@ -23,6 +23,7 @@ public class BooksController : ControllerBase
     public async Task<IActionResult> Post([FromBody] BookCreationDto dto)
     {
         Book book = _mapper.Map<Book>(dto);
+        book.Validar();
         Book createdBook = await _bookService.AddAsync(book);
         BookResponseDto responseDto = _mapper.Map<BookResponseDto>(createdBook);
         return Ok(responseDto);
