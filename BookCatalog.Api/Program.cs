@@ -10,21 +10,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var useInMemory = builder.Configuration.GetValue<bool>("UseInMemoryDatabase");
 
-builder.Services.AddDbContext<BookContext>(options =>
+if (useInMemory)
 {
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
-});
+    builder.Services.AddDbContext<BookContext>(options =>
+    {
+        options.UseInMemoryDatabase("BookCatalogDb");
+    });
+}
+else
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<BookContext>(options =>
+    {
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+    });
+}
 
-builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 var app = builder.Build();
 
 app.UseHttpsRedirection();
-//app.UseAuthorization();
 app.UseMiddleware<ExceptionMiddleware>();
 app.MapControllers();
 
